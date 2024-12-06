@@ -241,7 +241,7 @@ ADC配置
 >
 >参考资料：
 >
->[32 ESP32之使用I2S实现录音功能 （INMP411,MAX4466介绍）- 基于Arduino_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1xA411Q76y/?spm_id_from=333.337.search-card.all.click&vd_source=3cb0bf4d59cb1d9d4ad468ab211ce85f)
+>[32 ESP32之使用I2S实现录音功能 （INMP411,MAX4466介绍](https://www.bilibili.com/video/BV1xA411Q76y/?spm_id_from=333.337.search-card.all.click&vd_source=3cb0bf4d59cb1d9d4ad468ab211ce85f)
 >
 >https://www.youtube.com/watch?v=pPh3_ciEmzs
 
