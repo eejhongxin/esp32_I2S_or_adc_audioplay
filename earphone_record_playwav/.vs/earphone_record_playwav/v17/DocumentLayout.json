@@ -1,0 +1,55 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\012457\\Desktop\\20241115_earphone_record_playwav\\earphone_record_playwav\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\012457\\Desktop\\20241115_earphone_record_playwav\\earphone_record_playwav\\MyI2S.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:MyI2S.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\012457\\Desktop\\20241115_earphone_record_playwav\\earphone_record_playwav\\MyI2S.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:MyI2S.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MyI2S.cpp",
+              "DocumentMoniker": "C:\\Users\\012457\\Desktop\\20241115_earphone_record_playwav\\earphone_record_playwav\\MyI2S.cpp",
+              "RelativeDocumentMoniker": "MyI2S.cpp",
+              "ToolTip": "C:\\Users\\012457\\Desktop\\20241115_earphone_record_playwav\\earphone_record_playwav\\MyI2S.cpp",
+              "RelativeToolTip": "MyI2S.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-11-15T06:04:11.568Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MyI2S.h",
+              "DocumentMoniker": "C:\\Users\\012457\\Desktop\\20241115_earphone_record_playwav\\earphone_record_playwav\\MyI2S.h",
+              "RelativeDocumentMoniker": "MyI2S.h",
+              "ToolTip": "C:\\Users\\012457\\Desktop\\20241115_earphone_record_playwav\\earphone_record_playwav\\MyI2S.h",
+              "RelativeToolTip": "MyI2S.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-11-15T06:04:12.699Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
