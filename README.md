@@ -111,34 +111,74 @@ ADC先进行采样，然后将采样后的数据存储到**RAM**中，然后CPU�
 
 ## 硬件部分
 
+整个系统由esp32-wroom32作为主控芯片，麦克风用的是inmp441（i2s麦克风）和max9814（adc采样麦克风）两种，音频增益芯片用的是max98357（I2S输出）和8002A功放芯片（DAC输出），喇叭市面上随便挑一个就好了
+
+![image-20241206204650961](https://blog-images-1325348240.cos.ap-nanjing.myqcloud.com/undefinedimage-20241206204650961.png)
+
+引脚接线如下：
+
+ADC采样的引脚比较简单我就不说了哈哈哈哈
+
+**INMP441引脚**
+
+VDD——3.3V
+
+GND，L/R——GND
+
+SD——GPIO32
+
+WS——GPIO22
+
+SCK——GPIO21
+
+**MAX98357引脚**
+
+VIN——3.3V
+
+GND——GND
+
+DIN——GPIO14
+
+BCLK——GPIO12
+
+LRC——GPIO13
+
+****
+
 ## 软件部分
 
-### I2S基础参数配置
+### I2S协议配置
+
+i2s的参数配置
 
 ```C
 i2s_config_t i2s_config = {
-    .mode = mode,
-    .sample_rate = SAMPLE_RATE,
-    .bits_per_sample = I2S_BITS_PER_SAMPLE_16BIT,
-    .channel_format = I2S_CHANNEL_FMT_ONLY_LEFT,
+    .mode = mode,//设置I2S的模式，为主机或者从机模式，发送或者接收模式
+    .sample_rate = SAMPLE_RATE,//采样率设置
+    .bits_per_sample = I2S_BITS_PER_SAMPLE_16BIT,//采样的比特数
+    .channel_format = I2S_CHANNEL_FMT_ONLY_LEFT,//I2S的通道设置
     .communication_format = (i2s_comm_format_t)(I2S_COMM_FORMAT_I2S | I2S_COMM_FORMAT_I2S_MSB),
     .intr_alloc_flags = ESP_INTR_FLAG_LEVEL1,
-    .dma_buf_count = 8,
-    .dma_buf_len = 1024,
+    .dma_buf_count = 8,//存储空间数量
+    .dma_buf_len = 1024,//存储空间长度
     .use_apll = 0,
     .tx_desc_auto_clear = true,
     .fixed_mclk = -1
   };
 ```
 
+i2s的引脚配置
+
 ```C
   i2s_pin_config_t pin_config;
   memset(&pin_config,0,sizeof(i2s_pin_config_t));
-  pin_config.bck_io_num = bckPin;
-  pin_config.ws_io_num = wsPin;
-  pin_config.data_in_num = dataInPin;
-  pin_config.data_out_num = dataOutPin;
+  pin_config.bck_io_num = bckPin;//时钟引脚
+  pin_config.ws_io_num = wsPin;//声道设置
+  pin_config.data_in_num = dataInPin;//数据输入引脚（麦克风设置引脚）
+  pin_config.data_out_num = dataOutPin;//数据输出引脚（扬声器设置引脚）
 ```
+
+i2s的引脚和参数驱动配置
 
 ```C
   if(ESP_OK!=i2s_driver_install(i2s_num_, &i2s_config, 0, NULL))
@@ -155,9 +195,53 @@ i2s_config_t i2s_config = {
 }
 ```
 
-> 参考资料：
+### ADC模式下的I2S配置
+
+i2s参数配置
+
+```c
+  i2s_config_t i2s_config = {
+    .mode = (i2s_mode_t)(I2S_MODE_MASTER | I2S_MODE_RX | I2S_MODE_ADC_BUILT_IN),//跟之前代码主要不同的就是要设置ADC的模式
+    .sample_rate = SAMPLE_RATE,
+    .bits_per_sample = BPS,
+    .channel_format = I2S_CHANNEL_FMT_RIGHT_LEFT,
+    .communication_format = (i2s_comm_format_t)(I2S_COMM_FORMAT_I2S | I2S_COMM_FORMAT_I2S_MSB),
+    .intr_alloc_flags = 0,
+    .dma_buf_count = 16,
+    .dma_buf_len = 128,
+    .use_apll = false
+  };
+```
+
+i2s驱动配置
+
+```C
+if(ESP_OK!=i2s_driver_install(I2S_NUM_0, &i2s_config, 0, NULL))
+  {
+    Serial.println("install i2s driver failed");
+    return false;
+  }
+ i2s_set_pin(I2S_NUM_0, NULL);
+```
+
+ADC配置
+
+这里需要注意，如果你的项目中有WI-FIi功能的话建议不要使用ADC2的采样通道，因为ADC2采样通道和芯片中的WI-FI冲突了，
+
+![image-20241206203219502](https://blog-images-1325348240.cos.ap-nanjing.myqcloud.com/undefinedimage-20241206203219502.png)具体可以参考esp32的官方文档[esp32_datasheet_cn.pdf](https://www.espressif.com/sites/default/files/documentation/esp32_datasheet_cn.pdf)
+
+```C
+  i2s_set_adc_mode(ADC_UNIT_1, adcChannel);//设置ADC采样的通道为1，
+  adc1_config_channel_atten(adcChannel, ADC_ATTEN_DB_11);
+  i2s_adc_enable(I2S_NUM_0);
+```
+
+主程序这里太多了就不放出来了参考[eejhongxin/esp32_I2S_or_adc_audioplay](https://github.com/eejhongxin/esp32_I2S_or_adc_audioplay)
+
 >
-> [32 ESP32之使用I2S实现录音功能 （INMP411,MAX4466介绍）- 基于Arduino_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1xA411Q76y/?spm_id_from=333.337.search-card.all.click&vd_source=3cb0bf4d59cb1d9d4ad468ab211ce85f)
+>参考资料：
 >
-> https://www.youtube.com/watch?v=pPh3_ciEmzs
+>[32 ESP32之使用I2S实现录音功能 （INMP411,MAX4466介绍）- 基于Arduino_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1xA411Q76y/?spm_id_from=333.337.search-card.all.click&vd_source=3cb0bf4d59cb1d9d4ad468ab211ce85f)
+>
+>https://www.youtube.com/watch?v=pPh3_ciEmzs
 
